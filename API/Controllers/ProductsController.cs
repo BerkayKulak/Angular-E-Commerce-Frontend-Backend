@@ -1,5 +1,6 @@
-﻿using API.Data.DataContext;
-using API.Data.DbModels;
+﻿
+using API.Core.DbModels;
+using API.Infrastructure.DataContext;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)//
         {
-            return await _context.Products.FindAsync(id);
+            return await _context.Products.FindAsync(id);//
         }
 
 
