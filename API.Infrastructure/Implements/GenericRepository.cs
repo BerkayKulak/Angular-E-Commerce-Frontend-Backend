@@ -49,5 +49,9 @@ namespace API.Infrastructure.Implements
 
         }
 
+        public async Task<int> CountAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).CountAsync();
+        }
     }
 }

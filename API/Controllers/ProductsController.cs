@@ -3,6 +3,7 @@ using API.Core.DbModels;
 using API.Core.Interfaces;
 using API.Core.Specifications;
 using API.Dtos;
+using API.Helpers;
 using API.Infrastructure.DataContext;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    
+
     public class ProductsController : BaseApiController
     {
         // private readonly StoreContext _context;
@@ -29,7 +30,7 @@ namespace API.Controllers
 
         private readonly IMapper _mapper;
         public ProductsController(IGenericRepository<Product> productRepository, IGenericRepository<ProductBrand> productBrandRepository
-            , IGenericRepository<ProductType> productTypeRepository,IMapper mapper)
+            , IGenericRepository<ProductType> productTypeRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _productBrandRepository = productBrandRepository;
@@ -40,23 +41,16 @@ namespace API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery] ProductSpecParams productSpecParams)
         {
-            var spec = new ProductsWitchProductTypeAndBrandSpecification();
-            var data = await _productRepository.ListAsync(spec);
-            // return Ok(data);
-            //return data.Select(pro => new ProductToReturnDto
-            //{
-            //    Id = pro.Id,
-            //    Name = pro.Name,
-            //    Description = pro.Description,
-            //    PictureUrl = pro.PictureUrl,
-            //    Price = pro.Price,
-            //    ProductBrand = pro.ProductBrand != null ? pro.ProductBrand.Name : string.Empty,
-            //    ProductType = pro.ProductType != null ? pro.ProductType.Name : string.Empty
+            var spec = new ProductsWitchProductTypeAndBrandSpecification(productSpecParams);
+            var countSpec = new ProductWithFiltersForCountSpecification(productSpecParams);
+            var totalItems = await _productRepository.CountAsync(spec);
+            var products = await _productRepository.ListAsync(spec);
+            var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
 
-            //}).ToList();
-            return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(data));
+            return Ok(new Pagination<ProductToReturnDto>(productSpecParams.PageIndex, productSpecParams.PageSize, totalItems, data));
+
         }
 
 
