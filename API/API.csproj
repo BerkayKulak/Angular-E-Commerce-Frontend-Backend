@@ -22,4 +22,17 @@
     <ProjectReference Include="..\API.Infrastructure\API.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\products\1.jpg" />
+    <None Include="wwwroot\images\products\2.jpg" />
+    <None Include="wwwroot\images\products\3.jpg" />
+    <None Include="wwwroot\images\products\4.jpg" />
+    <None Include="wwwroot\images\products\5.jpg" />
+  </ItemGroup>
+
 </Project>
