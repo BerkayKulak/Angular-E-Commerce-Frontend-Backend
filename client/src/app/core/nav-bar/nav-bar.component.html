@@ -13,22 +13,41 @@
     fixed-top
   "
 >
-  <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-    <img src="/assets/images/shop.png" style="max-height: 70px" alt="logo" />
+  <a href="/" class="d-flex align-items-center text-decoration-none">
+    <img
+      src="/assets/images/shop.png"
+      style="max-height: 70px"
+      alt="logo"
+      [routerLink]="['/']"
+      class="logo"
+    />
   </a>
 
   <nav
     class="d-inline-flex mt-2 mt-md-0 ms-md-auto text-uppercase"
     style="font-size: large"
   >
-    <a class="me-3 py-2 text-dark text-decoration-none" href="#">Home</a>
-    <a class="me-3 py-2 text-dark text-decoration-none" href="#">Shop</a>
-    <a class="me-3 py-2 text-dark text-decoration-none" href="#">Contact</a>
+    <a
+      class="p-2 text-decoration-none"
+      [routerLink]="['/']"
+      routerLinkActive="router-link-active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Home</a
+    >
+    <a
+      class="mr-10 p-2 text-decoration-none"
+      [routerLink]="['/shop']"
+      routerLinkActive="router-link-active"
+      >Shop</a
+    >
+    <a class="p-2 text-decoration-none" [routerLink]="['/']" href="#"
+      >Contact</a
+    >
   </nav>
   <div class="d-flex align-items-center">
-    <a class="position-relative">
+    <a routerLink="/basket" class="position-relative">
       <i class="fa fa-shopping-cart fa-2x mr-5 text-dark"></i>
-      <div class="cart-no">5</div>
+      <div *ngIf="(basket$ | async) as basket" class="cart-no">{{basket.items.length}}</div>
     </a>
     <a class="btn btn-outline-secondary mr-2">Login</a>
     <a class="btn btn-outline-secondary mr-3">Sign Up</a>
