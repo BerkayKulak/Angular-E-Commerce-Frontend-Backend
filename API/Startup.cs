@@ -78,10 +78,10 @@ namespace API
             app.UseRouting();
 
             app.UseCors("CorsPolicy");
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseSwaggerDocumentation();
+            app.UseSwaggerDocumention();
           
 
             app.UseEndpoints(endpoints =>

@@ -1,0 +1,45 @@
+<div class="d-flex justify-content-center mt-5">
+  <div class="col-3">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-signin">
+    <div class="text-center mb-4">
+      <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+    </div>
+    <div class="form-label-group">
+      <label class="visually-hidden"  for="inputDisplayName">Display Name</label>
+      <input formControlName="displayName" type="text" name="" id="inputDisplayName" class="form-control" placeholder="Display Name" required="" autofocus="">
+      <span class="text-danger" *ngIf="registerForm.get('displayName').invalid && registerForm.get('displayName').touched && registerForm.get('displayName').errors['required']"> Display zorunludur</span>
+
+
+    </div>
+    <br>
+
+    <div class="form-label-group">
+      <label class="visually-hidden"  for="inputEmail">Email Address</label>
+      <input formControlName="email" type="email" name="" id="inputEmail" class="form-control" placeholder="Email Adres" required="" autofocus="">
+      <span class="text-danger" *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched && registerForm.get('email').errors['required']"> Email Alanı zorunludur</span>
+      <span class="text-danger" *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched && registerForm.get('email').errors['emailExists']"> Email Alanı kullanılmış</span>
+
+
+    </div>
+    <br>
+
+    <div class="form-label-group">
+      <label class="visually-hidden"  for="inputPassword">Password</label>
+      <input formControlName="password" type="inputPassword"id="inputPassword" class="form-control" placeholder="Password" required="">
+      <span class="text-danger" *ngIf="registerForm.get('password').invalid && registerForm.get('password').touched && registerForm.get('password').errors['required']"> Email Alanı zorunludur</span>
+
+
+    </div>
+
+      <button [disabled]="registerForm.invalid" class="w-100 btn btn-lg btn-primary btn-block" type="submit">Register</button>
+
+    </form>
+  </div>
+  <!-- <div class="col-5">
+    <p>Form Status: {{loginForm.status}}</p>
+    <p>Email Status: {{loginForm.get('email').status}}</p>
+    <p>Email Touched: {{loginForm.get('email').touched}}</p>
+    <p>Email Dirty: {{loginForm.get('email').dirty}}</p>
+    <p>{{loginForm.value | json}}</p>
+  </div> -->
+</div>

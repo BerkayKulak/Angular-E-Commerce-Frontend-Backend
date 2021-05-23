@@ -11,6 +11,7 @@ import { SectionHeaderComponent } from './section-header/section-header.componen
 import { BreadcrumbModule } from 'xng-breadcrumb';
 import { ToastrModule } from 'ngx-toastr';
 import { BasketComponent } from '../basket/basket.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -22,6 +23,7 @@ import { BasketComponent } from '../basket/basket.component';
     CommonModule,
     RouterModule,
     BreadcrumbModule,
+    SharedModule,
     ToastrModule.forRoot(
       {
         positionClass:'toastr-bottom-right',
