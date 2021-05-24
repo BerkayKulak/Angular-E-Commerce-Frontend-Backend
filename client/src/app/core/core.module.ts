@@ -12,18 +12,20 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
 import { ToastrModule } from 'ngx-toastr';
 import { BasketComponent } from '../basket/basket.component';
 import { SharedModule } from '../shared/shared.module';
+import { OrderTotalsComponent } from '../shared/order-totals/order-totals.component';
 
 
 
 
 
 @NgModule({
-  declarations: [NavBarComponent, NotFoundComponent, ServerErrorComponent, TestErrorComponent, SectionHeaderComponent ],
+  declarations: [NavBarComponent, NotFoundComponent, ServerErrorComponent, TestErrorComponent, SectionHeaderComponent],
   imports: [
     CommonModule,
     RouterModule,
     BreadcrumbModule,
     SharedModule,
+    
     ToastrModule.forRoot(
       {
         positionClass:'toastr-bottom-right',

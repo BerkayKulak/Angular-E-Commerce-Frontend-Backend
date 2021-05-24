@@ -8,7 +8,9 @@
           ></app-checkout-address>
         </cdk-step>
         <cdk-step [label]="'Delivery'">
-          <app-checkout-delivery></app-checkout-delivery>
+          <app-checkout-delivery
+            [checkoutForm]="checkoutForm"
+          ></app-checkout-delivery>
           Step 2
         </cdk-step>
         <cdk-step [label]="'Review'">
@@ -16,13 +18,13 @@
           Step 3
         </cdk-step>
         <cdk-step [label]="'Payment'">
-          <app-checkout-payment></app-checkout-payment>
+          <app-checkout-payment [checkoutForm]="checkoutForm"></app-checkout-payment>
           Step 4
         </cdk-step>
       </app-stepper>
     </div>
     <div class="col-4">
-      <app-order-totals></app-order-totals>
+      <order-totals></order-totals>
     </div>
   </div>
 </div>
