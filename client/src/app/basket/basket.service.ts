@@ -21,19 +21,35 @@ export class BasketService {
   basket$ = this.basketSource.asObservable();
   private basketTotalSource = new BehaviorSubject<IBasketTotals>(null);
   basketTotal$ = this.basketTotalSource.asObservable();
-  shipping = 0
+  shipping = 0;
 
   constructor(private http: HttpClient) {}
 
-  setShippingPrice(deliveryMethod : IDeliveryMethod){
+  createPaymentIntent() {
+    return this.http
+      .post(this.baseUrl + 'payments/' + this.getCurrentBasketValue().id, {})
+      .pipe(
+        map((basket: IBasket) => {
+          this.basketSource.next(basket);
+          console.log(this.getCurrentBasketValue());
+        })
+      );
+  }
+
+  setShippingPrice(deliveryMethod: IDeliveryMethod) {
     this.shipping = deliveryMethod.price;
+    const basket = this.getCurrentBasketValue();
+    basket.deliveryMethod = deliveryMethod.id;
+    basket.shippingPrice = deliveryMethod.price;
     this.calculateTotals();
+    this.setBasket(basket);
   }
 
   getBasket(id: string) {
     return this.http.get(this.baseUrl + 'basket?id=' + id).pipe(
       map((basket: IBasket) => {
         this.basketSource.next(basket);
+        this.shipping = basket.shippingPrice;
         this.calculateTotals();
       })
     );
@@ -82,39 +98,39 @@ export class BasketService {
     const foundItemIndex = basket.items.findIndex((x) => x.id === item.id);
     if (basket.items[foundItemIndex].quantity > 1) {
       basket.items[foundItemIndex].quantity--;
-    }
-    else{
-      this.removeItemFromBasket(item)
+    } else {
+      this.removeItemFromBasket(item);
     }
   }
   removeItemFromBasket(item: IBasketItem) {
     const basket = this.getCurrentBasketValue();
-    if(basket.items.some(x=>x.id===item.id)){
-      basket.items = basket.items.filter(i=>i.id !== item.id);
-      if(basket.items.length>0){
+    if (basket.items.some((x) => x.id === item.id)) {
+      basket.items = basket.items.filter((i) => i.id !== item.id);
+      if (basket.items.length > 0) {
         this.setBasket(basket);
-      }
-      else{
+      } else {
         this.deleteBasket(basket);
       }
     }
   }
 
-  deleteLocalBasket(id:string){
-      this.basketSource.next(null);
-      this.basketTotalSource.next(null);
-      localStorage.removeItem('basket_id');
+  deleteLocalBasket(id: string) {
+    this.basketSource.next(null);
+    this.basketTotalSource.next(null);
+    localStorage.removeItem('basket_id');
   }
 
-
   deleteBasket(basket: IBasket) {
-    return this.http.delete(this.baseUrl+"basket?id="+basket.id).subscribe(()=>{
-      this.basketSource.next(null);
-      this.basketTotalSource.next(null);
-      localStorage.removeItem('basket_id');
-    },error=>{
-      console.log(error);
-    })
+    return this.http.delete(this.baseUrl + 'basket?id=' + basket.id).subscribe(
+      () => {
+        this.basketSource.next(null);
+        this.basketTotalSource.next(null);
+        localStorage.removeItem('basket_id');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   private calculateTotals() {
