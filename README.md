@@ -29,6 +29,7 @@
 
 
 Teknolojiler
+
 .Net Core
 
 Angular
